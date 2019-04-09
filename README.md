@@ -2,6 +2,8 @@ This repository contains a shellcode encoder for 32-bit x86 that uses only 3 uni
 
 The checked in example encodes a [`windows/exec`](https://github.com/rapid7/metasploit-framework/blob/master/modules/payloads/singles/windows/exec.rb) payload from Metasploit that will execute calc.exe. The encoded version is `36062` bytes in length.
 
+Smaller 3 unique byte versions of this payload are possible. The winning entry from the original contest was smaller than this one. If you come up with a smaller approach, let me know and I'll link to your repo :)
+
 # How it works
 
 The three unique bytes used by this encoder can be used to compose the following instructions:
@@ -14,7 +16,7 @@ The three unique bytes used by this encoder can be used to compose the following
 
 The `dec esp` instruction is useful because it can be used to move the stack pointer into a region of the stack that has not yet been used, and thus is expected to contain a known state: zero bytes. By default, the encoder assumes that decrementing the stack pointer by 4 pages is sufficient to reach this regoin.
 
-The `dec dword [esp-0x1]` instruction can then be used to generate arbitrary byte values on the stack. For example, if the dword value at `esp-0x1` is zero and `0x1a` subtractions are performed, then the dword value will become `0xffffffe6`. If the stack pointer is then decremented by `dec esp`, the dword value at `esp-0x1` will become `0xffffe600`. If `0x15` subtractions are then performed, the dword value become `0xffffe5eb`, which corresponds to a `jmp short` instruction if disassembled:
+The `dec dword [esp-0x1]` instruction can then be used to generate arbitrary byte values on the stack. For example, if the dword value at `esp-0x1` is zero and `0x1a` subtractions are performed, then the dword value will become `0xffffffe6`. If the stack pointer is then decremented by `dec esp`, the dword value at `esp-0x1` will become `0xffffe600`. If `0x15` subtractions are then performed, the dword value becomes `0xffffe5eb`, which corresponds to a `jmp short` instruction if disassembled:
 
 ```
 EBE5              jmp short 0xffffffe7
@@ -26,7 +28,7 @@ After all of the bytes of the encoded payload have been decoded in this way, the
 
 While the above approach is sufficient to encode any payload, it can result in large payloads. This is because generating decoded byte values requires the `dec dword [esp-0x1]` instruction, e.g. one for each decrement required to generate a decoded byte value. This can be costly because `dec dword [esp-0x1]` is 4 bytes.
 
-To reduce this cost, this encoder also contains a second level of encoding. This encoding transforms each byte of the [raw payload](https://github.com/epakskape/greenshellcode/blob/master/raw_payload_enc.asm) as a sequence of 8 bytes (one byte per bit), where a bit being set is 0xfd and a bit being clear is 0xfe. Some examples of this encoding can be seen below:
+To reduce this cost, this encoder also contains a second level of encoding. This encoding transforms each byte of the [raw payload](https://github.com/epakskape/greenshellcode/blob/master/raw_payload_enc.asm) into a sequence of 8 encoded bytes for each raw byte (representing one raw bit per encoded byte), where a bit being set is 0xfd and a bit being clear is 0xfe. Some examples of this encoding can be seen below:
 
 ```
 0xe8 = 0xfd, 0xfd, 0xfd, 0xfe, 0xfd, 0xfe, 0xfe, 0xfe
