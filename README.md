@@ -94,4 +94,4 @@ Then execute `ecalc.exe` from the command shell. You should see calc.exe execute
 
 # Is this actually useful?
 
-Not really, but it was a fun challenge :) This encoder assumes that the stack is executable which is no longer the case on modern operating systems.
+Not really, but it was a fun challenge :) This encoder assumes that the stack is executable which is no longer the case on modern operating systems. It also assumes that it is possible to reliably find a portion of the stack that is zero initialized (e.g. not yet been used by the application) which may not work reliably in real-world cases.
