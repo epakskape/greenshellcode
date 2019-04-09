@@ -2,7 +2,7 @@ This repository contains a shellcode encoder for 32-bit x86 that uses only 3 uni
 
 The checked in example encodes a [`windows/exec`](https://github.com/rapid7/metasploit-framework/blob/master/modules/payloads/singles/windows/exec.rb) payload from Metasploit that will execute calc.exe. The encoded version is `36062` bytes in length.
 
-Smaller 3 unique byte versions of this payload are possible. The winning entry from the original contest was smaller than this one. If you come up with a smaller approach, let me know and I'll link to your repo :)
+Smaller 3 unique byte versions of this payload are possible. The [winning entry](https://gist.github.com/JohnLaTwC/d2c3e7f54e256aa2fd5ce4b86a1d6d54) from the original contest, which was independently created by another team, was smaller than this one. If you come up with a smaller approach, let me know and I'll link to your repo :)
 
 # How it works
 
