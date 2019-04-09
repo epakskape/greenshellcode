@@ -67,7 +67,7 @@ The following steps are taken to generate the encoded payload:
 
 1. The [bit_enc.rb](https://github.com/epakskape/greenshellcode/blob/master/bit_enc.rb) script is used to transform the [raw_payload.bin](https://github.com/epakskape/greenshellcode/blob/master/raw_payload.bin) into its encoded form which is stored in [raw_payload_enc.asm](https://github.com/epakskape/greenshellcode/blob/master/raw_payload_enc.asm).
 
-2. The second level decoder in [decode.asm](https://github.com/epakskape/greenshellcode/blob/master/decode.asm) is built with [nasm] and stored in `decode.o`. The [decode.asm](https://github.com/epakskape/greenshellcode/blob/master/decode.asm) includes [raw_payload_enc.asm](https://github.com/epakskape/greenshellcode/blob/master/raw_payload_enc.asm) from step 1.
+2. The second level decoder in [decode.asm](https://github.com/epakskape/greenshellcode/blob/master/decode.asm) is built with [nasm](https://nasm.us/) and stored in `decode.o`. The [decode.asm](https://github.com/epakskape/greenshellcode/blob/master/decode.asm) includes [raw_payload_enc.asm](https://github.com/epakskape/greenshellcode/blob/master/raw_payload_enc.asm) from step 1.
 
 3. The [enc.rb](https://github.com/epakskape/greenshellcode/blob/master/enc.rb) script is used to generate the 3 unique byte encoded version of `decode.o`. The encoded version is stored in [ecalc.asm](https://github.com/epakskape/greenshellcode/blob/master/ecalc.asm).
 
